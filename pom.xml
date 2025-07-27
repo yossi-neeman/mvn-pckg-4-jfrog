@@ -30,18 +30,7 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>artifactory</id>
-            <name>JFrog Artifactory</name>
-            <url>${artifactory.url}artifactory/${artifactory.repo}</url>
-        </repository>
-        <snapshotRepository>
-            <id>artifactory</id>
-            <name>JFrog Artifactory Snapshots</name>
-            <url>${artifactory.url}artifactory/${artifactory.repo}</url>
-        </snapshotRepository>
-    </distributionManagement>
+    <!-- Distribution management is handled by JFrog CLI -->
 
     <build>
         <plugins>
