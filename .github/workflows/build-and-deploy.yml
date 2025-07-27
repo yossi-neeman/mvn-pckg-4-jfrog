@@ -34,6 +34,6 @@ jobs:
       #if: github.event.pull_request.merged == true || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       run: mvn clean deploy -s .github/maven-settings.xml
       env:
-        ARTIFACTORY_URL: https://mtapptrust.jfrogdev.org/
+        ARTIFACTORY_URL: https://appdev1.jfrog.io/
         ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
         ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }} 
