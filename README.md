@@ -56,23 +56,33 @@ This project includes a GitHub Actions workflow that automatically:
 
 ### JFrog Artifactory Integration
 
-The project is configured to deploy to JFrog Artifactory at:
-- **URL**: https://mtapptrust.jfrogdev.org/
+The project uses **JFrog CLI with OIDC authentication** to deploy to JFrog Artifactory:
+- **URL**: https://appdev1.jfrog.io/
 - **Repository**: calc-NumberAdder
+- **Authentication**: OIDC (OpenID Connect) - no secrets required
 
-### Required GitHub Secrets
+### OIDC Authentication
 
-To enable deployment, add these secrets to your GitHub repository:
-
-- `ARTIFACTORY_USERNAME`: Your JFrog Artifactory username
-- `ARTIFACTORY_PASSWORD`: Your JFrog Artifactory password/token
+The workflow uses GitHub's OIDC tokens for secure authentication with JFrog Artifactory. This approach:
+- ✅ **No secrets required** - uses GitHub's built-in OIDC
+- ✅ **More secure** - temporary tokens with limited scope
+- ✅ **Automatic rotation** - tokens are generated fresh for each run
 
 ### Manual Deployment
 
-To manually deploy to Artifactory:
+To manually deploy using JFrog CLI:
 
 ```bash
-mvn clean deploy -s .github/maven-settings.xml
+# Install JFrog CLI
+curl -fL https://install-cli.jfrog.io | sh
+
+# Configure and authenticate
+jf c import jfrog-cli.conf
+jf c use --server-id 0
+jf auth oidc --server-id 0
+
+# Deploy
+jf mvn deploy --build-name=number-adder --build-number=1
 ```
 
 ## Usage

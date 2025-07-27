@@ -1,10 +1,14 @@
-name: Build and Deploy to JFrog-Artifactory
+name: Build and Deploy to JFrog Artifactory
 
 on:
   pull_request:
     types: [closed]
   push:
     branches: [ main, master ]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   build-and-deploy:
@@ -27,13 +31,30 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
-    - name: Build with Maven
-      run: mvn clean compile test -s .github/maven-settings.xml
-      
-    - name: Deploy to JFrog Artifactory
-      #if: github.event.pull_request.merged == true || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      run: mvn clean deploy -s .github/maven-settings.xml
+    - name: Setup JFrog CLI
+      uses: jfrog/setup-jfrog-cli@v3
+      with:
+        version: latest
+        
+    - name: Configure JFrog CLI
+      run: |
+        jf c import jfrog-cli.conf
+        jf c use --server-id 0
+        
+    - name: Authenticate with JFrog Artifactory
+      run: |
+        jf auth oidc --server-id 0
       env:
-        ARTIFACTORY_URL: https://appdev1.jfrog.io/
-        ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
-        ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }} 
+        JFROG_CLI_LOG_LEVEL: DEBUG
+        
+    - name: Build with Maven
+      run: mvn clean compile test
+      env:
+        JFROG_CLI_LOG_LEVEL: DEBUG
+        
+    - name: Deploy to JFrog Artifactory
+      if: github.event.pull_request.merged == true || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      run: |
+        jf mvn deploy --build-name=number-adder --build-number=${{ github.run_number }}
+      env:
+        JFROG_CLI_LOG_LEVEL: DEBUG 
