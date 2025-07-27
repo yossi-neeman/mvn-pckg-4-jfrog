@@ -31,7 +31,7 @@ jobs:
       run: mvn clean compile test -s .github/maven-settings.xml
       
     - name: Deploy to JFrog Artifactory
-      if: github.event.pull_request.merged == true || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      #if: github.event.pull_request.merged == true || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       run: mvn clean deploy -s .github/maven-settings.xml
       env:
         ARTIFACTORY_URL: https://mtapptrust.jfrogdev.org/
