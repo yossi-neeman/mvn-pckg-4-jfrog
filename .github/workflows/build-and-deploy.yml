@@ -67,8 +67,10 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
-    - name: Build with Maven
-      run: mvn clean compile test
+    - name: Clear Maven cache and build
+      run: |
+        rm -rf ~/.m2/repository/org/apache/maven/plugins/maven-compiler-plugin
+        mvn clean compile test -U
       env:
         JFROG_CLI_LOG_LEVEL: DEBUG
         
