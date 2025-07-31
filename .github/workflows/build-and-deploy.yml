@@ -51,6 +51,10 @@ jobs:
       env:
         JFROG_CLI_LOG_LEVEL: DEBUG
         
+    - name: Configure Maven for JFrog CLI
+      run: |
+        jf mvn-config --repo-resolve calc-NumberAdder --repo-deploy calc-NumberAdder --server-id-resolve 0 --server-id-deploy 0
+        
     - name: Deploy to JFrog Artifactory
       run: |
         jf mvn deploy --build-name=number-adder --build-number=${{ github.run_number }}
