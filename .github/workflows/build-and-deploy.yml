@@ -25,20 +25,9 @@ jobs:
         oidc-provider-name: "calc"
         version: latest
         
-    - name: Configure JFrog CLI
+    - name: ping JFrog
       run: |
         jf rt ping
-    #    jf c import jfrog-cli.conf
-        
-
-    #    jf c use --server-id 0
-     
-        
-    - name: Authenticate with JFrog Artifactory
-      run: |
-        jf auth oidc --server-id 0
-      env:
-        JFROG_CLI_LOG_LEVEL: DEBUG
         
     - name: Set up JDK 11
       uses: actions/setup-java@v4
