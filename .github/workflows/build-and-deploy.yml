@@ -1,8 +1,6 @@
 name: Build and Deploy to JFrog Artifactory 
 
 on:
-  pull_request:
-    types: [closed]
   push:
     branches: [ main, master, jfrog-cli-oidc ]
 
@@ -27,7 +25,7 @@ jobs:
       run: |
         jf c import jfrog-cli.conf
         jf ping
-        
+
     #    jf c use --server-id 0
      
         
