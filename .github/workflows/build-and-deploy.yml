@@ -34,12 +34,9 @@ jobs:
         # Update pom.xml with new version using awk instead of sed
         awk -v old="$CURRENT_VERSION" -v new="$NEW_VERSION" '{gsub(/<version>.*<\/version>/, "<version>" new "</version>"); print}' pom.xml > pom.xml.tmp && mv pom.xml.tmp pom.xml
         
-        # Commit the version change
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add pom.xml
-        git commit -m "Auto-increment version to $NEW_VERSION [skip ci]"
-        git push
+        # Store the new version for later use
+        echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+        echo "Updated version to $NEW_VERSION for this build"
 
     - name: Setup JFrog CLI
       uses: jfrog/setup-jfrog-cli@v4
@@ -81,8 +78,6 @@ jobs:
         
     - name: Deploy to JFrog Artifactory
       run: |
-        # Get the new version that was set in the previous step
-        NEW_VERSION=$(grep '<version>' pom.xml | sed 's/.*<version>\(.*\)<\/version>.*/\1/')
         echo "Deploying version: $NEW_VERSION"
         jf mvn deploy --build-name=number-adder --build-number=${{ github.run_number }}
       env:
