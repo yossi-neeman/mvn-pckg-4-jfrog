@@ -2,7 +2,8 @@ name: Build and Deploy to JFrog Artifactory
 
 on:
   push:
-    branches: [ main, master, jfrog-cli-oidc ]
+    branches:
+      - jfrog-cli-oidc
 
 permissions:
   id-token: write
