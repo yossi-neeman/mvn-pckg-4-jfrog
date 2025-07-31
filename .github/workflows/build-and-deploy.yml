@@ -43,12 +43,12 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
         
     - name: Build with Maven
-      run: mvn clean compile test
+      run: mvn clean compile test -s .github/maven-settings.xml
       env:
         JFROG_CLI_LOG_LEVEL: DEBUG
         
     - name: Deploy to JFrog Artifactory
       run: |
-        mvn clean deploy
+        mvn clean deploy -s .github/maven-settings.xml
       env:
         JFROG_CLI_LOG_LEVEL: DEBUG 
