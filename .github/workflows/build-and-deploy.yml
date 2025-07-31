@@ -49,6 +49,6 @@ jobs:
         
     - name: Deploy to JFrog Artifactory
       run: |
-        mvn clean deploy --build-name=number-adder --build-number=${{ github.run_number }}
+        mvn clean deploy
       env:
         JFROG_CLI_LOG_LEVEL: DEBUG 
