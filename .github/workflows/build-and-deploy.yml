@@ -27,6 +27,7 @@ jobs:
       run: |
         jf c import jfrog-cli.conf
         jf ping
+        
     #    jf c use --server-id 0
      
         
