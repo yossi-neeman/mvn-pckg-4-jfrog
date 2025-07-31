@@ -27,7 +27,7 @@ jobs:
         
     - name: Configure JFrog CLI
       run: |
-        jf ping
+        jf rt ping
     #    jf c import jfrog-cli.conf
         
 
