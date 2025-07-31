@@ -31,8 +31,8 @@ jobs:
         NEW_VERSION="$MAJOR.$MINOR.$NEW_PATCH"
         echo "New version: $NEW_VERSION"
         
-        # Update pom.xml with new version
-        sed -i "s/<version>$CURRENT_VERSION<\/version>/<version>$NEW_VERSION<\/version>/" pom.xml
+        # Update pom.xml with new version using different delimiter
+        sed -i "s|<version>$CURRENT_VERSION</version>|<version>$NEW_VERSION</version>|g" pom.xml
         
         # Commit the version change
         git config --local user.email "action@github.com"
