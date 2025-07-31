@@ -53,7 +53,7 @@ jobs:
         
     - name: Configure Maven for JFrog CLI
       run: |
-        jf mvn-config --repo-deploy-releases calc-NumberAdder --repo-deploy-snapshots calc-NumberAdder --repo-resolve-releases calc-NumberAdder --repo-resolve-snapshots calc-NumberAdder
+        jf mvn-config --repo-deploy-releases calc-NumberAdder
         
     - name: Deploy to JFrog Artifactory
       run: |
