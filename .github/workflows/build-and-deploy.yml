@@ -3,7 +3,7 @@ name: Build and Deploy to JFrog Artifactory
 on:
   push:
     branches:
-      - jfrog-cli-oidc
+      - feature/jfrog-cli-oidc
 
 permissions:
   id-token: write
@@ -55,7 +55,6 @@ jobs:
         JFROG_CLI_LOG_LEVEL: DEBUG
         
     - name: Deploy to JFrog Artifactory
-      if: github.event.pull_request.merged == true || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       run: |
         jf mvn deploy --build-name=number-adder --build-number=${{ github.run_number }}
       env:
