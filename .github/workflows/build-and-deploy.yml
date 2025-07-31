@@ -19,14 +19,17 @@ jobs:
 
     - name: Setup JFrog CLI
       uses: jfrog/setup-jfrog-cli@v4
+      env:
+        JF_URL: "https://appdev1.jfrog.io/"
       with:
         oidc-provider-name: "calc"
         version: latest
         
     - name: Configure JFrog CLI
       run: |
-        jf c import jfrog-cli.conf
         jf ping
+    #    jf c import jfrog-cli.conf
+        
 
     #    jf c use --server-id 0
      
