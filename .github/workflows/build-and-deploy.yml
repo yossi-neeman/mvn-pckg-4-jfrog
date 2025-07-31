@@ -32,11 +32,10 @@ jobs:
     - name: Configure JFrog CLI
       run: |
         jf c add --url https://appdev1.jfrog.io/ --interactive=false
-        jf c use --server-id 0
         
     - name: Authenticate with JFrog Artifactory
       run: |
-        jf auth oidc --server-id 0
+        jf auth oidc
       env:
         JFROG_CLI_LOG_LEVEL: DEBUG
         
